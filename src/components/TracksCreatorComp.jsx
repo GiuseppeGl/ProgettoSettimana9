@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { setBranoCorrente, setCurrentSrc, setListaBrani } from '../slice/currentSrc';
 
 export default function TracksCreatorComp({ album }) {
 
@@ -17,12 +19,23 @@ export default function TracksCreatorComp({ album }) {
       album.data.map((e, index) => {
         durataArray.push(formatTime(e.duration))
       })
+      const dispatch = useDispatch();
+      // console.log(album.data)
+
+      const handlerSingleTrack = (e, index) => {
+        dispatch(setListaBrani(album.data))
+        dispatch(setCurrentSrc(e.preview))
+        dispatch(setBranoCorrente(index))
+        // console.log(index)
+      }
+
+
   return (
     <>
         {album && album.data.map((e, index) => (
             <div key={index}>
-            <div className="py-3 trackHover">
-            <a href="#" className="card-title trackHover px-3" style={{ color: 'white' }}>
+            <div className="py-3 trackHover" onClick={() => handlerSingleTrack(e, index)}>
+            <a href="#" className="card-title trackHover px-3">
                 {e.title}
             </a>
             <small className="duration" style={{ color: 'white' }}>

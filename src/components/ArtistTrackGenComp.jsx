@@ -8,8 +8,14 @@ export default function ArtistTrackGenComp( {artistID} ) {
   const navigate = useNavigate();
 
   useEffect(()  => {
-    axios.get('https://striveschool-api.herokuapp.com/api/deezer/artist/'+artistID+'/top?limit=12',
-    )
+    axios.get('https://striveschool-api.herokuapp.com/api/deezer/artist/'+artistID+'/top?limit=12', {
+      headers: {
+        'X-RapidAPI-Host': 'deezerdevs-deezer.p.rapidapi.com',
+        'X-RapidAPI-Key': '9d408f0366mshab3b0fd8e5ecdf7p1b09f2jsne682a1797fa0',
+        'Content-Type': 'application/json',
+        'User-Agent': 'PostmanRuntime/7.35.0'
+      }
+    })
     .then(function (response) {
         // handle success
         setTrackList(response.data.data);
@@ -27,7 +33,7 @@ export default function ArtistTrackGenComp( {artistID} ) {
     <>
     {trackList &&
       trackList.map((e, index) => 
-        <div className="col-sm-auto col-md-auto text-center mb-5">
+        <div key={index} className="col-sm-auto col-md-auto text-center mb-5">
               <a href="#" onClick={() => navigate('/album_page/' + e.album.id)}>
                 <img className="img-fluid" src={e.album.cover_medium} alt="album image" />
               </a>
